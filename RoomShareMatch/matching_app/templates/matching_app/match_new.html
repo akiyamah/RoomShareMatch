@@ -1,0 +1,51 @@
+{% extends 'main_app/base.html' %}
+
+{% block content %}
+    <h2 class="mb-4">マッチング</h2>
+
+    <!-- マッチング方式のボタン -->
+    <div class="d-flex mb-4">
+        <a href="{% url 'matching_app:match_new' %}" class="btn btn-primary me-2">新着</a>
+        <a href="{% url 'matching_app:match_recommend' %}" class="btn btn-primary me-2">リコメンド</a>
+        <a href="{% url 'matching_app:match_search' %}" class="btn btn-primary">検索</a>
+    </div>
+
+    <!-- 検索バー -->
+    <form class="mb-4" method="get" action="{% url 'matching_app:match_search' %}">
+        <div class="input-group">
+            <input type="text" class="form-control" name="search" placeholder="検索キーワード">
+            <button type="submit" class="btn btn-primary">検索</button>
+        </div>
+    </form>
+
+    <!-- 新着マッチングの表示部分（適切なデータ構造に合わせて調整してください） -->
+    <div class="row">
+      {% load static %}
+      {% for user in users %}
+      <div class="col-md-4 mb-4">
+          <div class="card">
+              <!-- ここにプロフィール画像のURLを入れてください -->
+              {% if user.profile_image %}
+                  <img src="{{ user.profile_image.url }}" class="card-img-top" alt="プロフィール画像">
+              {% else %}
+                  <img src="{% static 'media/profile_images/default.jpg' %}" class="card-img-top" alt="プロフィール画像">
+              {% endif %}
+              <div class="card-body">
+                  <h5 class="card-title">{{ user.username }}</h5>
+                  <p class="card-text">年齢: {{ user.age }}</p>
+                  <p class="card-text">性別: {{ user.sex }}</p>
+                  <p class="card-text">自己紹介: {{ user.self_introduction }}</p>
+                  <!-- ここで詳細ページへのリンクを設定してください -->
+                  {% if user.id %}
+                    <a href="{% url 'matching_app:user_detail' user.id %}" class="btn btn-primary">詳細を見る</a>
+                  {% else %}
+                    <p>詳細情報がありません</p>
+                  {% endif %}
+
+                  
+              </div>
+          </div>
+      </div>
+      {% endfor %}
+    </div>
+{% endblock content %}

@@ -1,0 +1,53 @@
+ルームシェア希望条件を記入するフォームを作成します。
+初めにルームシェア希望モデルを作成する必要があります。
+回答は単一の回答と複数選択可能な回答があります。
+単一の回答については"RoommatePreference"にフィールドを記述し、複数選択可能な場合、個別にモデルを作成します。
+
+以下のJSON形式のデータがモデルの参考情報です。
+
+{
+  "purpose": {
+    "purpose_name": "目的名",
+    "user": {
+      "username": "ユーザー名",
+      "email": "メールアドレス"
+    }
+  },
+  "desired_cohabitee": {
+    "cohabitation_number": "同居人数",
+    "user": {
+      "username": "ユーザー名",
+      "email": "メールアドレス"
+    }
+  },
+  "room_layout": {
+    "layout": "間取り",
+    "user": {
+      "username": "ユーザー名",
+      "email": "メールアドレス"
+    }
+  },
+  "rent": {
+    "rent": "家賃",
+    "user": {
+      "username": "ユーザー名",
+      "email": "メールアドレス"
+    }
+  },
+  "roommate_preference": {
+    "gender": "性別",
+    "age_min": "最小年齢",
+    "age_max": "最大年齢",
+    "occupation": "職業",
+    "period": "期間",
+    "smoking": "喫煙",
+    "pet": "ペット",
+    "prefecture": "都道府県",
+    "commute_time": "通勤時間",
+    "parking": "駐車場",
+    "user": {
+      "username": "ユーザー名",
+      "email": "メールアドレス"
+    }
+  }
+}

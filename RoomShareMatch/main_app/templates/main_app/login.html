@@ -1,0 +1,17 @@
+{% extends 'main_app/base.html' %}
+
+{% block content %}
+    <h2 class="mb-4">ログイン</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="username" class="form-label">ユーザー名</label>
+            <input type="text" class="form-control" id="username" name="username">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">パスワード</label>
+            <input type="password" class="form-control" id="password" name="password">
+        </div>
+        <button type="submit" class="btn btn-primary">ログイン</button>
+    </form>
+{% endblock content %}

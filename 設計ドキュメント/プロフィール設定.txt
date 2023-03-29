@@ -1,0 +1,52 @@
+プロフィール設定です。
+各項目の設定値は単一の回答と複数選択可能な回答があります。
+単一の回答については "UserProfile"モデルにフィールドを定義します。
+複数選択可能な場合、個別にモデルを作成します。
+
+--例--
+{
+    "機能":{
+        "モデル名":{
+            "フィールド名":"説明”
+        }
+    }
+}
+------
+
+以下のJSON形式のデータがモデルの参考情報です。
+
+{
+    "Profile":{
+        "UserProfile":{
+            "user": "ユーザー名"
+            "user_name": "ユーザー名(ニックネーム)",
+            "sex": "性別",
+            "day_of_birth": "YYYY-MM-DD",
+            "age": "年齢",
+            "profession": "職業",
+            "prefecture": "ルームシェアを希望する都道府県",
+            "period": "ルームシェアを希望する期間",
+            "is_smoker": "喫煙,禁煙",
+            "has_pets": "はい,いいえ",
+            "parking": "駐車場",
+            "self_introduction": "自己紹介文章",
+        }
+        "UserPurpose": {
+            "purpose_name": "目的名",
+            "user": "ユーザー名"
+        },
+        "UserDesiredCohabitee": {
+            "cohabitation_number": "同居人数",
+            "user": "ユーザー名"
+        },
+        "UserRoomLayout": {
+            "layout": "間取り",
+            "user": "ユーザー名"
+        },
+        "UserRent": {
+            "rent": "家賃",
+            "user": "ユーザー名"
+        }
+    }
+}
+

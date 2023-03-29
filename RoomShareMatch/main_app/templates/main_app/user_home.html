@@ -1,0 +1,16 @@
+{% extends 'main_app/base.html' %}
+
+{% block content %}
+    <h2 class="mb-4">ホーム画面</h2>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">こんにちは、{{ user.username }} さん！</h5>
+            <p class="card-text">ここであなたのプロフィールを編集したり、マッチング候補を見つけたりできます。</p>
+            <a href="{% url 'main_app:auth_info_edit' %}" class="btn btn-primary">認証情報設定</a>
+            <a href="{% url 'main_app:matching_profile_edit' %}" class="btn btn-primary">プロフィール編集</a>
+            <a href="{% url 'matching_app:roommate_preference' %}" class="btn btn-primary">ルームシェア希望条件設定</a>
+            <a href="{% url 'matching_app:match_new' %}" class="btn btn-primary">マッチング</a>
+            <a href="#" class="btn btn-primary">ダイレクトメッセージ</a>
+        </div>
+    </div>
+{% endblock content %}

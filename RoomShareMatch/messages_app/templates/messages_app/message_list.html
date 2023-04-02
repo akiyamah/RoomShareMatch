@@ -1,0 +1,24 @@
+{% extends 'main_app/base.html' %}
+
+{% block content %}
+{% include 'main_app/menu_buttons.html' %}
+<h2 class="mb-4"><i class="bi bi-chat-dots"></i>ダイレクトメッセージ</h2>
+<div class="list-group">
+    {% for chat in chats %}
+        <a href="{% url 'messages_app:view_chat' chat.partner.id %}" class="list-group-item list-group-item-action" >
+            <div class="d-flex w-100 justify-content-between">
+                <div>
+                    <img src="{{ chat.partner_profile_image }}" alt="プロフィール画像" style="width: 50px; height: 50px;">
+                    <h5 class="mb-1 d-inline">{{ chat.partner.username }}</h5>
+                </div>
+                <small>{{ chat.timestamp|date:"Y-m-d H:i" }}</small>
+            </div>
+            <p class="mb-1">{{ chat.last_message.content|truncatechars:50 }}</p>
+        </a>
+    {% empty %}
+        <div class="list-group-item">
+            まだチャットはありません。
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

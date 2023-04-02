@@ -1,7 +1,8 @@
 {% extends 'main_app/base.html' %}
 
 {% block content %}
-  <h1>マッチングプロフィール編集</h1>
+{% include 'main_app/menu_buttons.html' %}
+  <h1>認証情報設定</h1>
   {% if success_message %}
     <div class="alert alert-success" role="alert">{{ success_message }}</div>
     <a href="{% url 'main_app:user_home' %}" class="btn btn-primary">ホームへ戻る</a>
@@ -9,12 +10,12 @@
   {% endif %}
   <div class="card">
     <div class="card-body">
-        <h5 class="card-title">マッチングプロフィール情報</h5>
+        <h5 class="card-title">登録情報</h5>
         <p class="card-text"></p>
         <form method="post" enctype="multipart/form-data">
           {% csrf_token %}
           {{ form.as_p }}
-          <button type="submit" class="btn btn-primary">保存</button>
+          <button type="submit" class="btn btn-primary">更新</button>
         </form>
     </div>
   </div>

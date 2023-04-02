@@ -11,13 +11,34 @@ from RoomShareMatch.constants.choices import (
 
 class UserUpdateForm(UserChangeForm):
     password = None  # パスワード変更を無効化
+    new_password = forms.CharField(
+        required=False,
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        label="新しいパスワード"
+    )
+    password_confirm = forms.CharField(
+        required=False,
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        label="新しいパスワードの確認"
+    )
+
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ['username', 'email', 'new_password', 'password_confirm']
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password = cleaned_data.get("new_password")
+        password_confirm = cleaned_data.get("password_confirm")
+
+        if new_password != password_confirm:
+            self.add_error("password_confirm", "パスワードが一致しません")
+
+
 
 
 class UserProfileForm(forms.ModelForm):
@@ -25,7 +46,6 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = [
-            'user', 
             'user_name', 
             'profile_image', 
             'sex', 
@@ -39,7 +59,6 @@ class UserProfileForm(forms.ModelForm):
             'self_introduction',
         ]
         labels = {
-            'user': 'ユーザーID',
             'user_name': 'あなたの使用するネームを記入してください',
             'profile_image': 'プロフィール画像を選択してください',
             'sex': '性別を選択してください',
@@ -53,7 +72,6 @@ class UserProfileForm(forms.ModelForm):
             'self_introduction': '自己紹介を記入してください',
         }
         widgets = {
-            'user': forms.TextInput(attrs={'class': 'form-control'}), 
             'user_name': forms.TextInput(attrs={'class': 'form-control'}), 
             'profile_image': forms.FileInput(attrs={'class': 'form-control'}), 
             'sex': forms.Select(choices=GENDER_CHOICES, attrs={'class': 'form-control'}), 

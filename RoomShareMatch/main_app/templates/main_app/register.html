@@ -1,34 +1,50 @@
 {% extends 'main_app/base.html' %}
 
 {% block content %}
-    <div class="card">
-        <div class="card-header">
-            <h2 class="card-title">アカウント作成</h2>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-dark text-white text-center">
+                    <h2 class="card-title">アカウント作成</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'main_app:register' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="username" class="form-label">ユーザー名:</label>
+                            <input type="text" class="form-control" name="username" required>
+                            {% if form.username.errors %}
+                                {% for error in form.username.errors %}
+                                <div class="alert alert-danger mt-2">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="password1" class="form-label">パスワード:</label>
+                            <input type="password" class="form-control" name="password1" required>
+                            {% if form.password1.errors %}
+                                {% for error in form.password1.errors %}
+                                <div class="alert alert-danger mt-2">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="password2" class="form-label">パスワード再入力:</label>
+                            <input type="password" class="form-control" name="password2" required>
+                            {% if form.password2.errors %}
+                                {% for error in form.password2.errors %}
+                                <div class="alert alert-danger mt-2">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">登録</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-            <form method="post" action="{% url 'main_app:register' %}" class="row g-3">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <div class="col-md-6">
-                    <label for="username" class="form-label">ユーザー名:</label>
-                    <input type="text" class="form-control" name="username" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="email" class="form-label">Eメール:</label>
-                    <input type="email" class="form-control" name="email" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="password1" class="form-label">パスワード:</label>
-                    <input type="password" class="form-control" name="password1" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="password2" class="form-label">パスワード確認:</label>
-                    <input type="password" class="form-control" name="password2" required>
-                </div>
-                <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Register</button>
-                </div>
-            </form>
-                    </div>
     </div>
+</div>
 {% endblock content %}

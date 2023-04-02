@@ -1,0 +1,61 @@
+{% extends 'main_app/base.html' %}
+
+{% load static %}
+
+{% block content %}
+{% include 'main_app/menu_buttons.html' %}
+<h2 class="mb-4"><i class="bi bi-chat-dots"></i>ダイレクトメッセージ</h2>
+<div class="container mt-4">
+  <div class="d-flex w-100 justify-content-between">
+    <div>
+      <img src="{{ receiver_profile_image }}" alt="プロフィール画像" style="width: 75px; height: 75px;">
+      <a href="{% url 'matching_app:user_detail' receiver.id %}" class="mb-1 d-inline">{{ receiver.username }}</a>
+    </div>
+</div>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body" style="height: 70vh; overflow-y: auto;">
+          {% for message in messages %}
+            <div class="d-flex mb-3 {% if message.sender == request.user %}justify-content-end{% else %}justify-content-start{% endif %}">
+              <div>
+                {% if message.sender != request.user %}
+                  <!-- <div class="mb-1"><strong>{{ message.sender.username }}</strong></div> -->
+                {% endif %}
+                <div class="card {% if message.sender == request.user %}bg-info{% else %}bg-light{% endif %} py-2 px-3 rounded">
+                  <p class="card-text mb-0  {% if message.sender != request.user %}text-dark{% endif %}">{{ message.content }}</p>
+                  {% if message.image %}
+                    <img src="{{ message.image.url }}" class="img-thumbnail mt-2" alt="Image">
+                  {% endif %}
+                </div>
+                <div class="mt-1">
+                  <small>{{ message.timestamp|date:"Y-m-d H:i" }}</small>
+                  {% if message.sender == request.user and not message.is_read %}
+                    <small>未読</small>
+                  {% elif message.sender == request.user and  message.is_read %}
+                    <small>既読</small>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% empty %}
+            <div class="card bg-light py-2 px-3 rounded mb-3">
+              <p class="card-text mb-0">まだメッセージがありません。</p>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="card-footer">
+          <form method="post" action="{% url 'messages_app:send_message_view' receiver.id chat_id %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="input-group">
+              <input type="text" name="content" class="form-control" placeholder="Send a message...">
+              <input type="file" name="image" class="form-control" accept="image/*">  <!-- 画像アップロード用のフィールドを追加 -->
+              <button type="submit" class="btn btn-primary">Send</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

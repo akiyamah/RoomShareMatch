@@ -1,19 +1,60 @@
-{% extends 'base.html' %}
+{% extends 'main_app/base.html' %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h2>{{ user_profile.user.username }}のプロフィール</h2>
-            <p>年齢: {{ user_profile.age }}</p>
-            <p>性別: {{ user_profile.sex }}</p>
-            <p>自己紹介: {{ user_profile.self_introduction }}</p>
-            {% if user_profile.profile_image %}
-                <img src="{{ user_profile.profile_image.url }}" alt="プロフィール画像" width="200">
-            {% else %}
-                <img src="{% static 'media/profile_images/default.jpg' %}" alt="プロフィール画像" width="200">
-            {% endif %}
+{% include 'main_app/menu_buttons.html' %}
+<h2 class="mb-4">ユーザー詳細</h2>
+<div class="row">
+    <div class="col-md-4">
+        {% load static %}
+        <div class="card mb-3">
+            <div class="card-body text-center">
+                {% if profile.profile_image %}
+                    <img src="{{ profile.profile_image.url }}" alt="プロフィール画像" class="img-thumbnail">
+                {% else %}
+                    <img src="{% static 'media/profile_images/default.jpg' %}" alt="プロフィール画像" class="img-thumbnail">
+                {% endif %}
+            </div>
+        </div>
+        <h3 class="mb-4">{{ user.username }}</h3>
+        <a href="{% url 'messages_app:view_chat' user.id %}" class="btn btn-primary">ダイレクトメッセージ</a>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card mb-3">
+            <div class="card-header bg-primary text-white">プロフィール情報</div>
+            <div class="card-body">
+                <p>ユーザー名: {{ profile.user_name|default:"未登録" }}</p>
+                <p>性別: {{ profile.sex|default:"未登録" }}</p>
+                <p>生年月日: {{ profile.day_of_birth|default:"未登録" }}</p>
+                <p>年齢: {{ profile.age|default:"未登録" }}</p>
+                <p>職業: {{ profile.profession|default:"未登録" }}</p>
+                <p>都道府県: {{ profile.prefecture|default:"未登録" }}</p>
+                <p>期間: {{ profile.period|default:"未登録" }}</p>
+                <p>喫煙: {{ profile.is_smoker|default:"未登録" }}</p>
+                <p>ペット: {{ profile.has_pets|default:"未登録" }}</p>
+                <p>駐車場: {{ profile.parking|default:"未登録" }}</p>
+                <p>自己紹介: {{ profile.self_introduction|default:"未登録" }}</p>
+            </div>
+        </div>
+        <div class="card mb-3">
+            <div class="card-header bg-primary text-white">マッチング希望条件</div>
+            <div class="card-body">
+                <div class="col-md-6">
+                    <h3>ルームシェア希望条件</h3>
+                    <p>性別: {{ roommate_preference.gender|default:"未登録" }}</p>
+                    <p>年齢: {{ roommate_preference.age_min|default:"未登録" }}歳〜 {{ roommate_preference.age_max|default:"未登録" }}歳</p>
+                    <p>職業: {{ roommate_preference.occupation|default:"未登録" }}</p>
+                    <p>期間: {{ roommate_preference.period|default:"未登録" }}</p>
+                    <p>喫煙: {{ roommate_preference.smoking|default:"未登録" }}</p>
+                    <p>ペット: {{ roommate_preference.pet|default:"未登録" }}</p>
+                    <p>都道府県: {{ roommate_preference.prefecture|default:"未登録" }}</p>
+                    <p>通勤時間: {{ roommate_preference.commute_time|default:"未登録" }}</p>
+                    <p>駐車場: {{ roommate_preference.parking|default:"未登録" }}</p>
+                </div>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
-{% endblock %}
+{% endblock content %}
+    

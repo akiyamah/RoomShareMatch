@@ -109,8 +109,8 @@ SMOKING_CHOICES = (
 )
 
 PET_CHOICES = (
-    ('OK', 'OK'),
-    ('NG', 'NG'),
+    ('YES', 'YES'),
+    ('NO', 'NO'),
 )
 
 PARKING_CHOICES = (

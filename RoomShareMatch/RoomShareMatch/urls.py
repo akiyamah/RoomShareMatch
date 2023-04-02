@@ -7,6 +7,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('main_app/', include('main_app.urls')),  
     path('matching_app/', include('matching_app.urls')), 
+    path('messages/', include('messages_app.urls')),
     # path('app_name/', include('app_name.urls')),  フォーマット
 ]
 

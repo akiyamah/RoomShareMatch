@@ -1,10 +1,13 @@
 {% extends 'main_app/base.html' %}
 
 {% block content %}
-
+{% include 'main_app/menu_buttons.html' %}
+{% if success_message %}
+  <div class="alert alert-success" role="alert">{{ success_message }}</div>
+{% endif %}
+<h2><i class="bi bi-sliders"></i>ルームシェア希望条件設定</h2>
 <div class="container mt-5">
-  <h2>ルームシェア希望条件設定</h2>
-  <form method="POST" action="{% url 'matching_app:roommate_preference_save' %}">
+  <form method="POST" action="{% url 'matching_app:save_roommate_preference' %}">
     {% csrf_token %}
     {{ purpose_form.as_p }}
     {{ cohabitation_form.as_p }}

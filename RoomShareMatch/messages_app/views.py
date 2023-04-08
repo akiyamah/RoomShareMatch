@@ -11,7 +11,7 @@ from django.urls import reverse
 
 def create_or_get_chat(user1, user2):
     """
-    ユーザー1とユーザー2間のチャットオブジェクトを作成または取得します。
+    ユーザー1とユーザー2のチャットオブジェクトを作成または取得します。
     
     :param user1: Userオブジェクト
     :param user2: Userオブジェクト
@@ -54,7 +54,6 @@ def view_chat(request, receiver_id):
             'receiver_profile_image': receiver_profile_image
         }
         return render(request, 'messages_app/chat_view.html', content)
-
 
 
 
@@ -109,10 +108,13 @@ def message_list(request):
     for chat in chats:
         last_message = Message.objects.filter(chat=chat).order_by('-timestamp').first()
         chat_partner = next(participant for participant in chat.participants.all() if participant != user)
+        chat_partner_user_name = UserProfile.objects.get(user=chat_partner).user_name
+        print(chat_partner_user_name)
         chat_partner_profile_image = UserProfile.objects.get(user=chat_partner).profile_image.url
         chat_data.append({
             'id': chat.id,
             'partner': chat_partner,
+            'partner_user_name': chat_partner_user_name,
             'last_message': last_message,
             'timestamp': last_message.timestamp if last_message else None,
             'partner_profile_image': chat_partner_profile_image

@@ -1,5 +1,4 @@
 {% extends 'main_app/base.html' %}
-
 {% block content %}
 {% include 'main_app/menu_buttons.html' %}
 <h2 class="mb-4"><i class="bi bi-chat-dots"></i>ダイレクトメッセージ</h2>
@@ -9,7 +8,7 @@
             <div class="d-flex w-100 justify-content-between">
                 <div>
                     <img src="{{ chat.partner_profile_image }}" alt="プロフィール画像" style="width: 50px; height: 50px;">
-                    <h5 class="mb-1 d-inline">{{ chat.partner.username }}</h5>
+                    <h5 class="mb-1 d-inline">{{ chat.partner_user_name }}</h5>
                 </div>
                 <small>{{ chat.timestamp|date:"Y-m-d H:i" }}</small>
             </div>

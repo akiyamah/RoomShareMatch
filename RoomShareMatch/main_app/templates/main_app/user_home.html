@@ -1,43 +1,37 @@
 {% extends 'main_app/base.html' %}
-
 {% block content %}
 {% include 'main_app/menu_buttons.html' %}
 <h2><i class="bi bi-house"></i>ホーム</h2>
 <div class="card">
-    <div class="card-body">
+    <div class="card-body" style="background-color: #f8f9fa;">
         <h5 class="card-title">こんにちは、{{ user.username }} さん！</h5>
-        <img src="{{ user_profile.profile_image.url }}" alt="プロフィール画像" style="width: 150px; height: 150px;">
-        <p>名前: {{ user_profile.user_name|default:"未登録" }} <i class="bi bi-person"></i></p>
-        <p>性別: {{ user_profile.sex|default:"未登録" }} {% if user_profile.sex == "男性" %}<i class="bi bi-gender-male"></i>{% elif user_profile.sex == "女性" %}<i class="bi bi-gender-female"></i>{% else %}<i class="bi bi-gender-trans"></i>{% endif %}</p>
-        <p>誕生日: {{ user_profile.day_of_birth|default:"未登録" }} <i class="bi bi-calendar"></i></p>
-        <p>自己紹介: {{ user_profile.self_introduction|default:"未登録" }} </p>
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{{ user_profile.profile_image.url }}" alt="プロフィール画像" class="img-thumbnail" style="width: 150px; height: 150px;">
+            </div>
+            <div class="col-md-8">
+                <p>名前: {{ user_profile.user_name|default:"未登録" }} <i class="bi bi-person"></i></p>
+                <p>性別: {{ user_profile.sex|default:"未登録" }} 
+                    {% if user_profile.sex == "男性" %}<i class="bi bi-gender-male"></i>
+                    {% elif user_profile.sex == "女性" %}<i class="bi bi-gender-female"></i>
+                    {% else %}<i class="bi bi-gender-trans"></i>
+                    {% endif %}
+                </p>
+                <p>誕生日: {{ user_profile.day_of_birth|default:"未登録" }} <i class="bi bi-calendar"></i></p>
+                <p>自己紹介: {{ user_profile.self_introduction|default:"未登録" }} </p>
+            </div>
+        </div>
     </div>
 </div>
 <div class="mt-3">
     <h3>アプリの使い方</h3>
     <ol>
+        {% for title, content in instructions.items %}
         <li>
-            <h4>プロフィールを充実させる</h4>
-            <p>まずはじめに、あなたのプロフィールを充実させましょう。名前、性別、誕生日、プロフィール画像などを設定して、自分をアピールできる情報を入力してください。プロフィールが充実していると、相手に自分のことを理解してもらいやすくなり、マッチングの成功率が向上します。</p>
+            <h4>{{ title }}</h4>
+            <p>{{ content }}</p>
         </li>
-        <li>
-            <h4>ルームシェアの希望条件を設定する</h4>
-            <p>次に、ルームシェアの希望条件を設定しましょう。希望するエリア、家賃の上限、ルームシェアの目的など、自分が求める条件を詳細に設定することで、条件に合った相手を見つけやすくなります。</p>
-        </li>
-        <li>
-            <h4>マッチング候補を探す</h4>
-            <p>プロフィールと希望条件を設定したら、マッチング候補を探しましょう。アプリがあなたの条件に合った相手を見つけてくれますので、マッチング候補をチェックしてみてください。</p>
-        </li>
-        <li>
-            <h4>相手とコンタクトを取る</h4>
-            <p>マッチング候補の中から気になる相手が見つかったら、ダイレクトメッセージでコンタクトを取りましょう。相手とコミュニケーションを取りながら、ルームシェアに関する具体的な話を進めていきましょう。</p>
-        </li>
-        <li>
-            <h4>ルームシェアを始める</h4>
-            <p>相手とのやり取りがスムーズに進み、お互いにルームシェアを始める意思が固まったら、具体的な契約手続きを進めてルームシェアを始めましょう。ルームシェアの成功には、お互いの理解と協力が大切です。常にコミュニケーションを大切にし、お互いに配慮しながら楽しいルームシェアライフを送りましょう。</p>
-        </li>
+        {% endfor %}
     </ol>
 </div>
 {% endblock content %}
-
-

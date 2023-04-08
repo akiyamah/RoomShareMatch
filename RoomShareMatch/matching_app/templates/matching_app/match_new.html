@@ -1,45 +1,41 @@
 {% extends 'main_app/base.html' %}
-
+{% load static %}
 {% block content %}
 {% include 'main_app/menu_buttons.html' %}
-<h2 class="mb-4"><i class="bi bi-shuffle"></i>マッチング</h2>
+{% include 'matching_app/match_type_menu_buttons.html' %}
 
-<!-- マッチング方式のボタン -->
-<div class="d-flex mb-4">
-    <a href="{% url 'matching_app:match_new' %}" class="btn btn-primary me-2">新着</a>
-    <a href="{% url 'matching_app:match_recommend' %}" class="btn btn-primary me-2">リコメンド</a>
-    <a href="{% url 'matching_app:match_search' %}" class="btn btn-primary">検索</a>
-</div>
-
-<!-- 検索バー -->
-<form class="mb-4" method="get" action="{% url 'matching_app:match_search' %}">
-    <div class="input-group">
-        <input type="text" class="form-control" name="search" placeholder="検索キーワード">
-        <button type="submit" class="btn btn-primary">検索</button>
-    </div>
-</form>
-
-<!-- 新着マッチングの表示部分（適切なデータ構造に合わせて調整してください） -->
-<div class="row">
-    {% load static %}
-    {% for user in users %}
-    <div class="col-md-4 mb-4">
-        <div class="card">
-            <!-- ここにプロフィール画像のURLを入れてください -->
+<h2 class="mb-4"><i class="bi bi-clock"></i> 新着マッチング</h2>
+<!-- 新着マッチングの表示部分 -->
+{% for user in users %}
+<div class="card mb-1" style="background-color: #f8f9fa;">
+    <div class="row g-0">
+        <div class="col-md-4">
             {% if user.profile_image %}
-                <img src="{{ user.profile_image.url }}" class="card-img-top" alt="プロフィール画像">
+            <img src="{{ user.profile_image.url }}" class="img-fluid rounded-start" alt="プロフィール画像" style="width: 180px; height: 180px;">
             {% else %}
-                <img src="{% static 'media/profile_images/default.jpg' %}" class="card-img-top" alt="プロフィール画像">
+            <img src="{% static 'media/profile_images/default.jpg' %}" class="img-fluid rounded-start" alt="プロフィール画像" style="width: 180px; height: 180px;">
             {% endif %}
-            <div class="card-body">
-                <p class="card-title">ユーザー名:{{ user.username }}</p>
-                <p class="card-text">年齢: {{ user.age }}</p>
-                <p class="card-text">性別: {{ user.sex }}</p>
-                <!-- ここで詳細ページへのリンクを設定してください -->
+        </div>
+        <div class="col-md-8">
+            <div class="card-body" >
+                <p class="card-text">ユーザー名: {{ user.user_name|default:"未登録" }}</p>
+                <p class="card-text">年齢: {{ user.age|default:"未登録" }}</p>
+                <p class="card-text">性別: {{ user.sex|default:"未登録" }}</p>
                 <a href="{% url 'matching_app:user_detail' user.id %}" class="btn btn-primary">詳細を見る</a>
             </div>
         </div>
     </div>
-    {% endfor %}
+</div>
+{% endfor %}
+<!-- Back and Next buttons -->
+<div class="d-flex justify-content-between">
+    {% if current_page|add:"-1" >= 1 %}
+    <a href="{% url 'matching_app:match_new_users' %}?page={{ current_page|add:'-1' }}" class="btn btn-primary">戻る</a>
+    {% else %}
+    <a class="btn btn-primary disabled">戻る</a>
+    {% endif %}
+    {% if has_next %}
+    <a href="{% url 'matching_app:match_new_users' %}?page={{ current_page|add:'1' }}" class="btn btn-primary">次へ</a>
+    {% endif %}
 </div>
 {% endblock content %}

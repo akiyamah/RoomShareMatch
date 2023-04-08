@@ -14,16 +14,14 @@ from matching_app.models import RoommatePreference
 from django.conf import settings
 import os
 
-def default_profile_image_path():
-    return os.path.join('default_images', 'default_profile.jpg')
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     user_name = models.CharField(max_length=30, blank=True, null=True)
-    profile_image = models.ImageField(upload_to='profile_images/', default=default_profile_image_path())
+    profile_image = models.ImageField(upload_to='profile_images/', default='')
     sex = models.CharField(max_length=10, blank=True, null=True)
     day_of_birth = models.DateField(blank=True, null=True)
-    
+
     @property
     def age(self):
         if self.day_of_birth:
@@ -31,7 +29,7 @@ class UserProfile(models.Model):
             age = today.year - self.day_of_birth.year - ((today.month, today.day) < (self.day_of_birth.month, self.day_of_birth.day))
             return age
         return None
-    
+
     profession = models.CharField(max_length=50, blank=True, null=True)
     prefecture = models.CharField(max_length=10, blank=True, null=True)
     period = models.CharField(max_length=10, blank=True, null=True)
@@ -39,11 +37,22 @@ class UserProfile(models.Model):
     has_pets = models.CharField(max_length=10, blank=True, null=True)
     parking = models.CharField(max_length=10, blank=True, null=True)
     self_introduction = models.TextField(blank=True, null=True)
-    
+
     def __str__(self):
         return self.user.username
-    
-    
+
+    def save(self, *args, **kwargs):
+        # saveメソッドのオーバーライド
+        if not self.user_name:
+            self.user_name = self.user.username
+        if not self.profile_image:
+            self.profile_image = UserProfile.default_profile_image_path()
+        super(UserProfile, self).save(*args, **kwargs)
+
+    @classmethod
+    def default_profile_image_path(cls):
+        return os.path.join('default_images', 'default_profile.jpg')
+
 
 class UserPurpose(models.Model):
     # ユーザーのルームシェア目的情報を管理するモデル。
@@ -66,7 +75,7 @@ class UserDesiredCohabitee(models.Model):
 class UserRoomLayout(models.Model):
     # ユーザーの希望する部屋の間取りを管理するモデル。
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_room_layout')
-    layout = models.CharField(max_length=50, blank=True, null=True)
+    layout = models.CharField(max_length=100, blank=True, null=True)
     
     def __str__(self):
         return self.layout

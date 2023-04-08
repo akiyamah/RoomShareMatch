@@ -1,7 +1,39 @@
 {% extends 'main_app/base.html' %}
-
 {% block content %}
-    <h2 class="mb-4">ログイン</h2>
+<style>
+    .login-card {
+        max-width: 400px;
+        margin: auto;
+        padding: 30px;
+        background-color: #f5f5f5;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+    .login-icon {
+        font-size: 48px;
+        margin-bottom: 20px;
+        color: #007bff;
+    }
+</style>
+
+<div class="login-card">
+    <div class="text-center">
+        <i class="bi bi-box-arrow-in-right login-icon"></i>
+        <h2 class="mb-4">ログイン</h2>
+    </div>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                <li class="alert alert-success" role="alert">{{ message }}</li>
+            {% elif message.tags == 'error' %}
+                <li class="alert alert-danger" role="alert">{{ message }}</li>
+            {% else %}
+                <li class="alert alert-info" role="alert">{{ message }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    {% endif %}
     {% if form.non_field_errors %}
     <div class="alert alert-danger">
         {{ form.non_field_errors }}
@@ -11,12 +43,23 @@
         {% csrf_token %}
         <div class="mb-3">
             <label for="username" class="form-label">ユーザー名</label>
-            <input type="text" class="form-control" id="username" name="username">
+            <input type="text" class="form-control" id="username" name="username" value="{{ form.username.value|default:'' }}" required>
+            {% if form.username.errors %}
+            <div class="alert alert-danger mt-2">
+                {{ form.username.errors }}
+            </div>
+            {% endif %}
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">パスワード</label>
-            <input type="password" class="form-control" id="password" name="password">
+            <input type="password" class="form-control" id="password" name="password" required>
+            {% if form.password.errors %}
+            <div class="alert alert-danger mt-2">
+                {{ form.password.errors }}
+            </div>
+            {% endif %}
         </div>
         <button type="submit" class="btn btn-primary">ログイン</button>
     </form>
+</div>
 {% endblock content %}

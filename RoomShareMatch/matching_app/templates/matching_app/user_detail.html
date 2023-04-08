@@ -15,8 +15,7 @@
                 {% endif %}
             </div>
         </div>
-        <h3 class="mb-4">{{ user.username }}</h3>
-        <a href="{% url 'messages_app:view_chat' user.id %}" class="btn btn-primary">ダイレクトメッセージ</a>
+        <a href="{% url 'messages_app:view_chat' user.id %}" class="btn btn-primary"><i class="bi bi-chat-dots"></i> ダイレクトメッセージ</a>
     </div>
     
     <div class="col-md-8">
@@ -40,7 +39,6 @@
             <div class="card-header bg-primary text-white">マッチング希望条件</div>
             <div class="card-body">
                 <div class="col-md-6">
-                    <h3>ルームシェア希望条件</h3>
                     <p>性別: {{ roommate_preference.gender|default:"未登録" }}</p>
                     <p>年齢: {{ roommate_preference.age_min|default:"未登録" }}歳〜 {{ roommate_preference.age_max|default:"未登録" }}歳</p>
                     <p>職業: {{ roommate_preference.occupation|default:"未登録" }}</p>

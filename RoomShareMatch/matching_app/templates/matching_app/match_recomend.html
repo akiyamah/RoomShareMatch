@@ -1,26 +1,35 @@
 {% extends 'main_app/base.html' %}
-
+{% load static %}
 {% block content %}
 {% include 'main_app/menu_buttons.html' %}
-<h2 class="mb-4"><i class="bi bi-shuffle"></i>マッチング</h2>
+{% include 'matching_app/match_type_menu_buttons.html' %}
 
-<div class="container mt-5">
-  <h2>ルームシェア希望条件設定</h2>
-  <form method="POST" action="{% url 'matching_app:roommate_preference_save' %}">
-    {% csrf_token %}
-    {{ purpose_form.as_p }}
-    {{ cohabitation_form.as_p }}
-    {{ layout_form.as_p }}
-    {{ rent_form.as_p }}
-    {{ roommate_preference_form.as_p }}
-    <div class="form-group row mt-4">
-      <div class="col-sm-10 offset-sm-2">
-        <button type="submit" class="btn btn-primary">保存</button>
-      </div>
+<h2 class="mb-4"><i class="bi bi-people-fill"></i> おすすめマッチング</h2>
+<!-- おすすめマッチングの表示部分 -->
+{% for user in recommended_users %}
+<div class="card mb-1" style="background-color: #f8f9fa;">
+    <div class="row g-0">
+        <div class="col-md-4">
+            {% if user.profile_image %}
+            <img src="{{ user.profile_image }}" class="img-fluid rounded-start" alt="プロフィール画像" style="width: 180px; height: 180px;">
+            {% else %}
+            <img src="{% static 'media/profile_images/default.jpg' %}" class="img-fluid rounded-start" alt="プロフィール画像" style="width: 180px; height: 180px;">
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <p class="card-text">ユーザー名: {{ user.user_name|default:"未登録" }}</p>
+                <p class="card-text">年齢: {{ user.age|default:"未登録" }}</p>
+                <p class="card-text">性別: {{ user.sex|default:"未登録" }}</p>
+                <p class="card-text">相性: {{ user.similarity }}%</p>
+                <a href="{% url 'matching_app:user_detail' user.id %}" class="btn btn-primary">詳細を見る</a>
+            </div>
+        </div>
     </div>
-  </form>
 </div>
-
+{% empty %}
+<div class="alert alert-info" role="alert">
+    おすすめのユーザーが見つかりませんでした。
+</div>
+{% endfor %}
 {% endblock content %}
-
-

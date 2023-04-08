@@ -2,13 +2,26 @@
 
 {% block content %}
 {% include 'main_app/menu_buttons.html' %}
-<h2><i class="bi bi-pencil-square"></i>プロフィール編集</h2>
-{% if success_message %}
-  <div class="alert alert-success" role="alert">{{ success_message }}</div>
+
+<h2><i class="bi bi-pencil-square"></i> プロフィール編集</h2>
+<!-- message -->
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      {% if message.tags == 'success' %}
+        <li class="alert alert-success" role="alert">{{ message }}</li>
+      {% elif message.tags == 'error' %}
+        <li class="alert alert-danger" role="alert">{{ message }}</li>
+      {% else %}
+        <li class="alert alert-info" role="alert">{{ message }}</li>
+      {% endif %}
+    {% endfor %}
+  </ul>
 {% endif %}
-<div class="card">
-  <div class="card-body">
-    <h5 class="card-title">プロフィール情報</purofi-rujouhou></h5>
+<!-- profile -->
+<div class="card mt-4">
+  <div class="card-body" style="background-color: #f8f9fa;">
+    <h5 class="card-title">プロフィール情報</h5>
     <p class="card-text"></p>
       <form method="post" action="{% url 'main_app:update_matching_profile' %}" enctype="multipart/form-data">
         {% csrf_token %}

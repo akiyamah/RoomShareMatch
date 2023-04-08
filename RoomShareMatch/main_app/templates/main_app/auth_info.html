@@ -1,0 +1,49 @@
+{% extends 'main_app/base.html' %}
+
+{% block content %}
+{% include 'main_app/menu_buttons.html' %}
+
+<style>
+    .account-settings-card {
+        max-width: 600px;
+        margin: auto;
+        padding: 30px;
+        background-color: #f5f5f5;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+    .account-settings-icon {
+        font-size: 48px;
+        margin-bottom: 20px;
+        color: #007bff;
+    }
+</style>
+
+<div class="account-settings-card">
+    <div class="text-center">
+        <i class="bi bi-pencil-square account-settings-icon"></i>
+        <h2 class="mb-4">アカウント設定</h2>
+    </div>
+    <!-- message -->
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          {% if message.tags == 'success' %}
+            <li class="alert alert-success" role="alert">{{ message }}</li>
+          {% elif message.tags == 'error' %}
+            <li class="alert alert-danger" role="alert">{{ message }}</li>
+          {% else %}
+            <li class="alert alert-info" role="alert">{{ message }}</li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    {% endif %}
+    <!-- account settings -->
+    <form method="post" action="{% url 'main_app:update_auth_info' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">更新</button>
+    </form>
+</div>
+
+{% endblock content %}

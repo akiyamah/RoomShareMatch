@@ -9,13 +9,13 @@ path(route, view, kwargs, name)
 この name 属性は、テンプレート内でURLを参照するために使用されます。
 """
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('register/', views.register, name='register'),
+    path('', views.signup, name='signup'),
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
-    path('user_home_view/', views.user_home_view, name='user_home_view'),
-    path('user_home/auth_info_view/', views.update_auth_info, name='update_auth_info'),
-    path('user_home/matching_profile_view/', views.matching_profile_view, name='matching_profile_view'),
+    path('user_home/', views.user_home, name='user_home'),
+    path('user_home/auth_info/', views.auth_info, name='auth_info'),
+    path('user_home/auth_info_saved/', views.update_auth_info, name='update_auth_info'),
+    path('user_home/matching_profile/', views.matching_profile, name='matching_profile'),
     path('user_home/matching_profile_saved/', views.update_matching_profile, name='update_matching_profile'),
 ]
 
